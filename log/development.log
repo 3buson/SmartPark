@@ -2408,3 +2408,14 @@ Processing by UsersController#new as HTML
   Rendered users/_form.html.erb (6.0ms)
   Rendered users/new.html.erb within layouts/application (7.3ms)
 Completed 200 OK in 42ms (Views: 41.9ms | ActiveRecord: 0.0ms)
+  [1m[36m (141.1ms)[0m  [1mDROP TABLE "requests"[0m
+  [1m[35m (116.8ms)[0m  CREATE TABLE "requests" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "type" varchar, "created" datetime, "expires" datetime, "longtitude" decimal, "latitude" decimal, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (125.2ms)[0m  [1mDROP TABLE "users"[0m
+  [1m[35m (137.7ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password" varchar, "number" varchar, "credits" integer DEFAULT 0, "cash" decimal DEFAULT 0.0, "reputation" decimal DEFAULT 0.0, "requested" integer DEFAULT 0, "received" integer DEFAULT 0, "voteUp" integer DEFAULT 0, "voteDown" integer DEFAULT 0, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (117.2ms)[0m  DROP TABLE "requests"
+  [1m[36m (109.2ms)[0m  [1mCREATE TABLE "requests" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "type" varchar, "created" datetime, "expires" datetime, "longtitude" decimal, "latitude" decimal, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (107.4ms)[0m  DROP TABLE "users"
+  [1m[36m (107.5ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password" varchar, "number" varchar, "credits" integer DEFAULT 0, "cash" decimal DEFAULT 0.0, "reputation" decimal DEFAULT 0.0, "requested" integer DEFAULT 0, "received" integer DEFAULT 0, "voteUp" integer DEFAULT 0, "voteDown" integer DEFAULT 0, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
