@@ -16,7 +16,8 @@
 !/log/.keep
 /tmp
 
-db/*.sqlite3
-log/*.log
-log/*.keep
+*.sqlite
+log/*
 tmp/**/*
+
+.env
