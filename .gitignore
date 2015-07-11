@@ -20,6 +20,3 @@ db/*.sqlite3
 log/*.log
 log/*.keep
 tmp/**/*
-
-Gemfile.lock
-
