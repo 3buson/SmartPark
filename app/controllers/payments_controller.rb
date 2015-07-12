@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   def client_token
-  	render json: {client_token: Braintree::ClientToken.generate}
+  	render status: 200, json: {client_token: Braintree::ClientToken.generate}
   end
 
   def pay
