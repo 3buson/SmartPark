@@ -1,6 +1,7 @@
 class PaymentsController < ApplicationController
   def client_token
-  	render status: 200, json: {client_token: Braintree::ClientToken.generate}
+  	render json: {client_token: Braintree::ClientToken.generate}
+
   end
 
   def pay
@@ -8,5 +9,9 @@ class PaymentsController < ApplicationController
   		:amount => params[:ammount],
   		:payment_method_nonce => params[:payment_method_nonce]
 	)
+
+	@user = User.find_by_username('Matic')
+	@user.credits = @user.credits + 1
+	@user.save
   end
 end
