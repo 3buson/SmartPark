@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
   def client_token
   	render json: {client_token: Braintree::ClientToken.generate}
 
