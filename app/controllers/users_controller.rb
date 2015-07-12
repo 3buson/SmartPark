@@ -77,6 +77,36 @@ class UsersController < ApplicationController
     end
   end
 
+  # VOTEUP /voteup
+  def voteUp
+    @userId = params[:user_id]
+    @user   = User.find(@userId)
+
+    @user.voteUp = @user.voteUp + 1
+    if @user.voteDown != 0
+      @user.reputation = @user.voteUp / @user.voteDown
+    else
+      @user.reputation = @user.voteUp
+    end
+
+    @user.save
+  end
+
+  # VOTEDOWN /votedown
+  def voteDown
+    @userId = params[:user_id]
+    @use    = User.find(@userId)
+
+    @user.voteDown = @user.voteDown + 1
+    if @user.voteDown != 0
+      @user.reputation = @user.voteUp / @user.voteDown
+    else
+      @user.reputation = @user.voteUp
+    end
+
+    @user.save
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

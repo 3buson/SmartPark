@@ -14,16 +14,16 @@ class RequestsController < ApplicationController
     @requests     = Request.all # all requests
     @myLongtitude = params[:longtitude]
     @myLatitude   = params[:latitude]
-    @myTimeStart  = params[:timeStart]
-    @myTimeEnd    = params[:timeEnd]
+    @myTime       = params[:time]
 
     @validRequests = Array.new
 
     for request in @requests
-      if (request.created < @myTimeStart) && (request.expires > @myTimeEnd)
+      if request.expires < @myTime
         @distance = calcDist(request.latitude, request.longtitude, @myLatitude, @myLongtitude)
-        puts @distance
-        if @distance < 400 # distance less than 400 m 
+        #puts @distance
+        if @distance < 450 # distance less than 400 m 
+          #request << { :distance => @distance}
           @validRequests.push(request)
         end
       end
@@ -89,6 +89,25 @@ class RequestsController < ApplicationController
       format.html { redirect_to requests_url, notice: 'Request was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # CONFIRM PARK SWAP /confirm
+  def handleCredits
+    @requestId   = params[:request_id]
+    @userMinusId = params[:user_id]
+    @userPlusId  = Request.find(@requestId).user_id
+
+    @userMinus = User.find(@userMinusId)
+    @userPlus  = User.find(@userPlusId)
+
+    @userMinus.credits = @userMinus.credits - 1
+    @userPlus.credits  = @userPlus.credits + 1
+
+    @userMinus.save
+    @userPlus.save
+
+    # remove confirmed request
+    Request.find(@requestId).destroy
   end
 
   private
