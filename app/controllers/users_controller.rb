@@ -62,6 +62,21 @@ class UsersController < ApplicationController
     end
   end
 
+  # LOGIN /login
+  def login
+    @user = User.validate_login(params[:username], params[:password])
+
+    respond_to do |format|
+      if @user
+        format.html { redirect_to @user, notice: 'User was successfully logged in.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :show, notice: 'Login failed.' }
+        format.json { render json: '', status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

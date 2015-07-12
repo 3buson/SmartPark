@@ -1,10 +1,39 @@
 class RequestsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
   before_action :set_request, only: [:show, :edit, :update, :destroy]
 
   # GET /requests
   # GET /requests.json
   def index
     @requests = Request.all
+  end
+
+  # POST /find
+  # POST /find.json
+  def getInRange
+    @requests     = Request.all # all requests
+    @myLongtitude = params[:longtitude]
+    @myLatitude   = params[:latitude]
+    @myTimeStart  = params[:timeStart]
+    @myTimeEnd    = params[:timeEnd]
+
+    @validRequests = Array.new
+
+    for request in @requests
+      if (request.created < @myTimeStart) && (request.expires > @myTimeEnd)
+        @distance = calcDist(request.latitude, request.longtitude, @myLatitude, @myLongtitude)
+        puts @distance
+        if @distance < 400 # distance less than 400 m 
+          @validRequests.push(request)
+        end
+      end
+    end
+
+    @export_data = @validRequests
+    respond_to do |format|
+      format.html
+      format.json { render :json => @export_data.to_json(:include => :user) }
+    end
   end
 
   # GET /requests/1
@@ -25,6 +54,7 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @request = Request.new(request_params)
+    @request.user_id = params[:request][:user_id]
 
     respond_to do |format|
       if @request.save
@@ -67,8 +97,16 @@ class RequestsController < ApplicationController
       @request = Request.find(params[:id])
     end
 
+    def calcDist(lat1, lon1, lat2, lon2)
+      dLat = (lat2 - lat1) * (Math::PI / 180)
+      dLon = (lon2 - lon1) * (Math::PI / 180)
+      a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + (Math.cos(lat1) * Math::PI / 180) * (Math.cos(lat2) * Math::PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2)
+      c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+      return 6371 * c * 1000
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:type, :created, :expires, :longtitude, :latitude)
+      params.require(:request).permit(:requestType, :created, :expires, :longtitude, :latitude, :user_id)
     end
 end

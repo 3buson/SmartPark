@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 	end
 
 	def self.validate_login(username, password)
-		user = User.find_by_mail(mail);
+		user = User.find_by_username(username);
 
 		if user && user.password == Digest::SHA256.hexdigest(password)
 			return user

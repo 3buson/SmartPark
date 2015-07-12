@@ -5,7 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>Type</th>
+      <th>User ID</th>
+      <th>Request Type</th>
       <th>Created</th>
       <th>Expires</th>
       <th>Longtitude</th>
@@ -17,7 +18,8 @@
   <tbody>
     <% @requests.each do |request| %>
       <tr>
-        <td><%= request.type %></td>
+        <td><%= request.user_id %></td>
+        <td><%= request.requestType %></td>
         <td><%= request.created %></td>
         <td><%= request.expires %></td>
         <td><%= request.longtitude %></td>
