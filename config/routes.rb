@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'payments/client_token'
+
+  get 'payments/pay'
+
   resources :requests
   resources :users
   # The priority is based upon order of creation: first created -> highest priority.
@@ -17,6 +21,9 @@ Rails.application.routes.draw do
   post '/votedown' => 'users#voteDown'
 
   post '/confirm' => 'requests#handleCredits'
+
+  get '/token' => 'payments#client_token'
+  post '/payment_methods' => 'payments#payment-methods'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

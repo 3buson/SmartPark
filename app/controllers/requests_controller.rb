@@ -23,7 +23,6 @@ class RequestsController < ApplicationController
         @distance = calcDist(request.latitude, request.longtitude, @myLatitude, @myLongtitude)
         #puts @distance
         if @distance < 450 # distance less than 400 m 
-          #request << { :distance => @distance}
           @validRequests.push(request)
         end
       end

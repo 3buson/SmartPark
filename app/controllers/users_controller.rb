@@ -79,8 +79,8 @@ class UsersController < ApplicationController
 
   # VOTEUP /voteup
   def voteUp
-    @userId = params[:user_id]
-    @user   = User.find(@userId)
+    @username = params[:username]
+    @user     = User.find_by_username(@username)
 
     @user.voteUp = @user.voteUp + 1
     if @user.voteDown != 0
@@ -94,8 +94,8 @@ class UsersController < ApplicationController
 
   # VOTEDOWN /votedown
   def voteDown
-    @userId = params[:user_id]
-    @use    = User.find(@userId)
+    @username = params[:username]
+    @use      = User.find_by_username(@username)
 
     @user.voteDown = @user.voteDown + 1
     if @user.voteDown != 0
